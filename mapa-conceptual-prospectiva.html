@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> ¿Qué es la Prospectiva?</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #f0f4ff 0%, #e0f2ff 50%, #f0e6ff 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 56rem;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeInDown 0.7s ease-out;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #2563eb 0%, #9333ea 50%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.75rem;
+        }
+
+        .header p {
+            color: #4b5563;
+            font-size: 1.125rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .divider-lines {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .divider-lines .line {
+            width: 3rem;
+            height: 0.25rem;
+            border-radius: 9999px;
+        }
+
+        .divider-lines .line:nth-child(1) {
+            background: linear-gradient(90deg, #3b82f6 0%, #a855f7 100%);
+        }
+
+        .divider-lines .line:nth-child(2) {
+            background: linear-gradient(90deg, #a855f7 0%, #ec4899 100%);
+        }
+
+        .divider-lines .line:nth-child(3) {
+            background: linear-gradient(90deg, #ec4899 0%, #3b82f6 100%);
+        }
+
+        /* Card */
+        .card {
+            margin-bottom: 1rem;
+        }
+
+        .card-button {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 0.75rem;
+            color: white;
+            font-weight: bold;
+            font-size: 1.125rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-button:hover {
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .card-button:active {
+            transform: scale(0.95);
+        }
+
+        .card-title-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .card-icon {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+
+        .chevron {
+            width: 1.5rem;
+            height: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .chevron.expanded {
+            transform: rotate(180deg);
+        }
+
+        /* Gradients para cada sección */
+        .gradient-blue { background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%); }
+        .gradient-purple { background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%); }
+        .gradient-green { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
+        .gradient-orange { background: linear-gradient(135deg, #f97316 0%, #dc2626 100%); }
+        .gradient-indigo { background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%); }
+        .gradient-pink { background: linear-gradient(135deg, #ec4899 0%, #f43f5e 100%); }
+        .gradient-yellow { background: linear-gradient(135deg, #eab308 0%, #f97316 100%); }
+        .gradient-teal { background: linear-gradient(135deg, #14b8a6 0%, #06b6d4 100%); }
+
+        .card-content {
+            display: none;
+            margin-top: 0.75rem;
+            padding: 1rem;
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.75rem;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .card-content.expanded {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Contenido de tarjetas */
+        .content-text {
+            color: #374151;
+            font-weight: 500;
+            line-height: 1.6;
+        }
+
+        .content-list {
+            list-style: none;
+        }
+
+        .content-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+
+        .content-list li::before {
+            content: '';
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: 50%;
+            background-color: #9ca3af;
+            flex-shrink: 0;
+            margin-top: 0.375rem;
+        }
+
+        .content-list li span {
+            font-weight: 500;
+        }
+
+        .generacion {
+            background: linear-gradient(135deg, #f3f4f6 0%, #f9fafb 100%);
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            border-left: 4px solid #10b981;
+            margin-bottom: 0.75rem;
+        }
+
+        .generacion-title {
+            font-weight: bold;
+            color: #1f2937;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .autores-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .autor-badge {
+            background: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            color: #374151;
+            font-weight: 500;
+            border: 1px solid #e5e7eb;
+        }
+
+        .section-group {
+            margin-bottom: 1rem;
+        }
+
+        .section-group-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .section-group-title.es {
+            color: #059669;
+        }
+
+        .section-group-title.no-es {
+            color: #dc2626;
+        }
+
+        .dot {
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: 50%;
+        }
+
+        .dot.green {
+            background-color: #059669;
+        }
+
+        .dot.red {
+            background-color: #dc2626;
+        }
+
+        .section-group-list {
+            list-style: none;
+            margin-left: 1rem;
+        }
+
+        .section-group-list li {
+            color: #374151;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        /* Grid Layout */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 3rem;
+            padding: 1.5rem;
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+
+        .footer-icon {
+            width: 3rem;
+            height: 3rem;
+            background: linear-gradient(135deg, #3b82f6 0%, #a855f7 100%);
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .footer-content h3 {
+            font-size: 1.125rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-content p {
+            color: #374151;
+            line-height: 1.6;
+        }
+
+        .footer-content strong {
+            color: #1f2937;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Prospectiva: Comprensión del Futuro y la Toma de Decisiones Estratégicas</h1>
+            <p>Mapa conceptual interactivo sobre los fundamentos de la prospectiva</p>
+            <div class="divider-lines">
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+            </div>
+        </div>
+
+        <!-- Definición Principal -->
+        <div class="card">
+            <button class="card-button gradient-blue" onclick="toggleCard(this)">
+                <div class="card-title-wrapper">
+                    <span>📋</span>
+                    <span>Definición de Prospectiva</span>
+                </div>
+                <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                </svg>
+            </button>
+            <div class="card-content">
+                <p class="content-text">Disciplina que estudia los posibles futuros para anticipar cambios y tomar mejores decisiones en el presente.</p>
+            </div>
+        </div>
+
+        <!-- Grid 1: Tiempo y Exponentes -->
+        <div class="grid-2">
+            <div class="card">
+                <button class="card-button gradient-purple" onclick="toggleCard(this)">
+                    <div class="card-title-wrapper">
+                        <span>⏰</span>
+                        <span>Tiempo y Futuro</span>
+                    </div>
+                    <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                    </svg>
+                </button>
+                <div class="card-content">
+                    <div class="section-group">
+                        <h4 style="font-weight: bold; margin-bottom: 0.5rem; color: #374151;">Tiempo:</h4>
+                        <p class="content-text">Dimensión que permite entender la relación entre pasado, presente y futuro.</p>
+                    </div>
+                    <div class="section-group" style="margin-top: 1rem;">
+                        <h4 style="font-weight: bold; margin-bottom: 0.5rem; color: #374151;">Futuro:</h4>
+                        <p class="content-text">Conjunto de escenarios posibles construidos a partir de decisiones presentes.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <button class="card-button gradient-green" onclick="toggleCard(this)">
+                    <div class="card-title-wrapper">
+                        <span>👥</span>
+                        <span>Principales Exponentes</span>
+                    </div>
+                    <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                    </svg>
+                </button>
+                <div class="card-content">
+                    <div class="generacion">
+                        <div class="generacion-title">1ª Generación</div>
+                        <div class="autores-list">
+                            <span class="autor-badge">Gaston Berger</span>
+                            <span class="autor-badge">Herman Kahn</span>
+                        </div>
+                    </div>
+                    <div class="generacion">
+                        <div class="generacion-title">2ª Generación</div>
+                        <div class="autores-list">
+                            <span class="autor-badge">Michel Godet</span>
+                        </div>
+                    </div>
+                    <div class="generacion">
+                        <div class="generacion-title">3ª Generación</div>
+                        <div class="autores-list">
+                            <span class="autor-badge">Peter Schwartz</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Naturaleza -->
+        <div class="card">
+            <button class="card-button gradient-orange" onclick="toggleCard(this)">
+                <div class="card-title-wrapper">
+                    <span>🎯</span>
+                    <span>Qué es y Qué NO es</span>
+                </div>
+                <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                </svg>
+            </button>
+            <div class="card-content">
+                <div class="section-group">
+                    <div class="section-group-title es">
+                        <span class="dot green"></span>
+                        SÍ ES:
+                    </div>
+                    <ul class="section-group-list">
+                        <li>• Analizar tendencias y cambios</li>
+                        <li>• Construir escenarios futuros</li>
+                        <li>• Apoyar toma de decisiones estratégicas</li>
+                    </ul>
+                </div>
+                <div class="section-group" style="margin-top: 1rem;">
+                    <div class="section-group-title no-es">
+                        <span class="dot red"></span>
+                        NO ES:
+                    </div>
+                    <ul class="section-group-list">
+                        <li>• Adivinar el futuro</li>
+                        <li>• Predecir con certeza absoluta</li>
+                        <li>• Basarse solo en suposiciones</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Grid 2: Objetivos y Realidad -->
+        <div class="grid-2">
+            <div class="card">
+                <button class="card-button gradient-indigo" onclick="toggleCard(this)">
+                    <div class="card-title-wrapper">
+                        <span>🎪</span>
+                        <span>Objetivos de la Prospectiva</span>
+                    </div>
+                    <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                    </svg>
+                </button>
+                <div class="card-content">
+                    <ul class="content-list">
+                        <li><span>Anticipar cambios del entorno</span></li>
+                        <li><span>Reducir la incertidumbre en la toma de decisiones</span></li>
+                        <li><span>Diseñar estrategias para construir futuros deseados</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <button class="card-button gradient-pink" onclick="toggleCard(this)">
+                    <div class="card-title-wrapper">
+                        <span>📊</span>
+                        <span>Realidad Actual</span>
+                    </div>
+                    <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                    </svg>
+                </button>
+                <div class="card-content">
+                    <p class="content-text">Cambios tecnológicos rápidos, globalización, digitalización y transformaciones sociales que afectan empleo, negocios y formas de vida.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Grid 3: Competencias y Señales -->
+        <div class="grid-2">
+            <div class="card">
+                <button class="card-button gradient-yellow" onclick="toggleCard(this)">
+                    <div class="card-title-wrapper">
+                        <span>💡</span>
+                        <span>Competencias para el Futuro</span>
+                    </div>
+                    <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                    </svg>
+                </button>
+                <div class="card-content">
+                    <ul class="content-list">
+                        <li><span>Pensamiento estratégico</span></li>
+                        <li><span>Adaptabilidad al cambio</span></li>
+                        <li><span>Creatividad e innovación</span></li>
+                        <li><span>Trabajo en equipo</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <button class="card-button gradient-teal" onclick="toggleCard(this)">
+                    <div class="card-title-wrapper">
+                        <span>📈</span>
+                        <span>Señales de Cambio</span>
+                    </div>
+                    <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                    </svg>
+                </button>
+                <div class="card-content">
+                    <p class="content-text" style="margin-bottom: 1rem; font-style: italic;">Indicios o cambios tempranos que muestran posibles transformaciones en el entorno.</p>
+                    <h4 style="font-weight: bold; margin-bottom: 0.5rem; color: #374151;">Ejemplos relevantes:</h4>
+                    <ul class="content-list">
+                        <li><span>Avances en IA y automatización</span></li>
+                        <li><span>Digitalización del trabajo y negocios</span></li>
+                        <li><span>Cambios en el mercado laboral</span></li>
+                        <li><span>Transformaciones en consumo y e-commerce</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-icon">💡</div>
+            <div class="footer-content">
+                <h3>¿Por qué es importante la prospectiva?</h3>
+                <p>La prospectiva ayuda a <strong>anticipar escenarios futuros</strong>, <strong>prepararse para los cambios</strong> y tomar <strong>decisiones estratégicas más acertadas</strong>. En un mundo de transformaciones tecnológicas rápidas, globalización y cambios sociales, entender las señales del entorno permite identificar tendencias, riesgos y oportunidades que influirán en nuestros proyectos de vida y negocios.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleCard(button) {
+            const content = button.nextElementSibling;
+            const chevron = button.querySelector('.chevron');
+
+            // Cerrar otros cards
+            document.querySelectorAll('.card-content.expanded').forEach(el => {
+                if (el !== content) {
+                    el.classList.remove('expanded');
+                    el.previousElementSibling.querySelector('.chevron').classList.remove('expanded');
+                }
+            });
+
+            // Toggle actual
+            content.classList.toggle('expanded');
+            chevron.classList.toggle('expanded');
+        }
+
+        // Abrir primer card por defecto
+        window.addEventListener('load', function() {
+            const firstButton = document.querySelector('.card-button');
+            toggleCard(firstButton);
+        });
+    </script>
+</body>
+</html>
